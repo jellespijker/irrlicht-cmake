@@ -19,7 +19,7 @@
 # 3. This notice may not be removed or altered from any source distribution.
 #
 
-SET (IRRLICHT_STATIC_LIBRARY OFF CACHE BOOL "Enabled static lib build.")
+SET (IRRLICHT_STATIC_LIBRARY ON CACHE BOOL "Enabled static lib build.")
 
 if (IRRLICHT_STATIC_LIBRARY)
 	message(STATUS "Build static library...")

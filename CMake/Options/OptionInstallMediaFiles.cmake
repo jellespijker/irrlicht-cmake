@@ -19,7 +19,7 @@
 # 3. This notice may not be removed or altered from any source distribution.
 #
 
-SET (IRRLICHT_INSTALL_MEDIA_FILES ON CACHE BOOL "Installs the media files.")
+SET (IRRLICHT_INSTALL_MEDIA_FILES OFF CACHE BOOL "Installs the media files.")
 SET(IRRLICHT_MEDIA_DIR "${CMAKE_SOURCE_DIR}/media" CACHE PATH "The directory where the media files are stored in.")
 
 if (IRRLICHT_INSTALL_MEDIA_FILES)
