@@ -1,6 +1,6 @@
 # The ZLIB license
 #
-# Copyright (c) 2015 André Netzeband
+# Copyright (c) 2015 Andrï¿½ Netzeband
 #
 # This software is provided 'as-is', without any express or implied
 # warranty. In no event will the authors be held liable for any damages
@@ -417,7 +417,6 @@ SET (IRRIO_SOURCE_FILES
 	source/Irrlicht/CMountPointReader.cpp
 	source/Irrlicht/irrXML.cpp
 	source/Irrlicht/CAttributes.cpp
-	source/Irrlicht/lzma/LzmaDec.c
 )
 
 SET (IRROTHER_SOURCE_FILES
@@ -679,8 +678,6 @@ SET (IRRLICHT_PRIVATE_HEADER_FILES
 	source/Irrlicht/CGUIImage.h                        
 	source/Irrlicht/CMY3DHelper.h          
 	source/Irrlicht/CSceneNodeAnimatorDelete.h
-	source/Irrlicht/lzma/LzmaDec.h
-	source/Irrlicht/lzma/Types.h
 )
 
 SET (ZLIB_SOURCE_FILES
@@ -695,10 +692,6 @@ SET (ZLIB_SOURCE_FILES
 	source/Irrlicht/zlib/uncompr.c
 	source/Irrlicht/zlib/zutil.c
 )
-
-INCLUDE_DIRECTORIES(
-  source/Irrlicht/zlib 
-  )
 
 SET (ZLIB_HEADER_FILES
 	source/Irrlicht/zlib/crc32.h
@@ -763,10 +756,6 @@ SET (JPEGLIB_SOURCE_FILES
 	source/Irrlicht/jpeglib/jaricom.c
 )
 
-INCLUDE_DIRECTORIES(
-  source/Irrlicht/jpeglib 
-  )
-
 SET (JPEGLIB_HEADER_FILES
 	source/Irrlicht/jpeglib/cderror.h
 	source/Irrlicht/jpeglib/cdjpeg.h
@@ -799,10 +788,6 @@ SET (LIBPNG_SOURCE_FILES
 	source/Irrlicht/libpng/pngwtran.c
 	source/Irrlicht/libpng/pngwutil.c
 )
-
-INCLUDE_DIRECTORIES(
-  source/Irrlicht/libpng
-  )
 
 SET (LIBPNG_HEADER_FILES
 	source/Irrlicht/libpng/png.h
@@ -837,6 +822,13 @@ SET (LIBAESGM_HEADER_FILES
 	source/Irrlicht/aesGladman/sha2.h
 )
 
+SET(LIBLZMA_SOURCE_FILES
+		source/Irrlicht/lzma/LzmaDec.c)
+
+SET (LIBLZMA_HEADER_FILES
+	source/Irrlicht/lzma/LzmaDec.h
+	source/Irrlicht/lzma/Types.h)
+
 SET (BZIP2_SOURCE_FILES
 	source/Irrlicht/bzip2/blocksort.c
 	source/Irrlicht/bzip2/huffman.c
@@ -866,19 +858,50 @@ SET (ALL_SOURCE_FILES
 	${IRRIO_SOURCE_FILES}
 	${IRROTHER_SOURCE_FILES}
 	${IRRGUI_SOURCE_FILES}
-	${ZLIB_SOURCE_FILES}
-	${JPEGLIB_SOURCE_FILES}
-	${LIBPNG_SOURCE_FILES}
 	${LIBAESGM_SOURCE_FILES}
-	${BZIP2_SOURCE_FILES}
 )
 
 SET (ALL_HEADER_FILES
 	${IRRLICHT_PUBLIC_HEADER_FILES}
 	${IRRLICHT_PRIVATE_HEADER_FILES}
-	${ZLIB_HEADER_FILES}
-	${JPEGLIB_HEADER_FILES}
-	${LIBPNG_HEADER_FILES}
 	${LIBAESGM_HEADER_FILES}
-	${BZIP2_HEADER_FILES}
 )
+
+if(USE_NON_SYSTEM_ZLIB)
+	LIST(APPEND ALL_SOURCE_FILES ${ZLIP_SOURCE_FILES})
+	LIST(APPEND ALL_HEADER_FILES ${ZLIP_HEADER_FILES})
+	INCLUDE_DIRECTORIES(
+			source/Irrlicht/zlib
+	)
+endif()
+
+if(USE_NON_SYSTEM_BZIP2)
+	LIST(APPEND ALL_SOURCE_FILES ${BZIP2_SOURCE_FILES})
+	LIST(APPEND ALL_HEADER_FILES ${BZIP2_HEADER_FILES})
+endif()
+
+if(USE_NON_SYSTEM_PNG)
+	LIST(APPEND ALL_SOURCE_FILES ${LIBPNG_SOURCE_FILES})
+	LIST(APPEND ALL_HEADER_FILES ${LIBPNG_HEADER_FILES})
+endif()
+
+if(USE_NON_SYSTEM_JPEG)
+	LIST(APPEND ALL_SOURCE_FILES ${JPEGLIB_SOURCE_FILES})
+	LIST(APPEND ALL_HEADER_FILES ${JPEGLIB_HEADER_FILES})
+	INCLUDE_DIRECTORIES(
+			source/Irrlicht/jpeglib
+	)
+endif()
+
+if(USE_NON_SYSTEM_PNG)
+	LIST(APPEND ALL_SOURCE_FILES ${LIBPNG_SOURCE_FILES})
+	LIST(APPEND ALL_HEADER_FILES ${LIBPNG_HEADER_FILES})
+	INCLUDE_DIRECTORIES(
+			source/Irrlicht/libpng
+	)
+endif()
+
+if(USE_NON_SYSTEM_LZMA)
+	LIST(APPEND ALL_SOURCE_FILES ${LIBLZMA_SOURCE_FILES})
+	LIST(APPEND ALL_HEADER_FILES ${LIBLZMA_HEADER_FILES})
+endif()

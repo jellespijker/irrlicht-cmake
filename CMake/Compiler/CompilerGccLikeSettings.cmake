@@ -1,6 +1,6 @@
 # The ZLIB license
 #
-# Copyright (c) 2015 André Netzeband
+# Copyright (c) 2015 Andrï¿½ Netzeband
 #
 # This software is provided 'as-is', without any express or implied
 # warranty. In no event will the authors be held liable for any damages
@@ -21,6 +21,13 @@
 
 SET(GCC_LIKE_COMPILER OFF)
 
+SET (CMAKE_CXX_FLAGS_RELEASE
+		"${CMAKE_CXX_FLAGS_RELEASE} -U__STRICT_ANSI__"
+		)
+SET (CMAKE_C_FLAGS_RELEASE
+		"${CMAKE_C_FLAGS_RELEASE} -U__STRICT_ANSI__"
+		)
+
 if ("x${CMAKE_CXX_COMPILER_ID}" STREQUAL "xClang")
 	message(STATUS "Detect CLANG compiler and handle it like GCC...")
 	SET(GCC_LIKE_COMPILER ON)
@@ -39,10 +46,10 @@ if (GCC_LIKE_COMPILER)
 		"${CMAKE_CXX_FLAGS} -Wall -pipe -fno-exceptions -fno-rtti -fstrict-aliasing"
 	)
 	SET (CMAKE_CXX_FLAGS_RELEASE
-		"${CMAKE_CXX_FLAGS_RELEASE} -fexpensive-optimizations -O3"
+		"${CMAKE_CXX_FLAGS_RELEASE} -O3"
 	)
 	SET (CMAKE_C_FLAGS_RELEASE
-		"${CMAKE_C_FLAGS_RELEASE} -O3 -fexpensive-optimizations"
+		"${CMAKE_C_FLAGS_RELEASE} -O3"
 	)
 	
 	INCLUDE(CheckCSourceCompiles)
