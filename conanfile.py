@@ -10,7 +10,7 @@ class IrrlichtConan(ConanFile):
     exports_sources = ["*", "!cmake-build-*"]
     settings = "os", "compiler", "build_type", "arch"
     options = {"shared": [True, False], "fPIC": [True, False]}
-    default_options = {"shared": True, "fPIC": True}
+    default_options = {"shared": False, "fPIC": True}
     requires = ["libx11/1.6.8@bincrafters/stable",
                 "opengl/virtual@bincrafters/stable",
                 "zlib/1.2.11",
@@ -25,9 +25,6 @@ class IrrlichtConan(ConanFile):
     def config_options(self):
         if self.settings.os == "Windows" or self.options.shared:
             del self.options.fPIC
-
-    def configure(self):
-        self.options["libx11"].shared = True
 
     def _configure_cmake(self):
         if self._cmake is None:
